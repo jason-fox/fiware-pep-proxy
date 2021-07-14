@@ -8,19 +8,17 @@ function to_array(env, default_value) {
   return env !== undefined ? env.split(',') : default_value;
 }
 
-const public_paths = to_array(process.env.PEP_PROXY_PUBLIC_PATHS, [
-  '/iot/about',
-]);
+const public_paths = to_array(process.env.PEP_PROXY_PUBLIC_PATHS, ['/iot/about']);
 
 const options = {
   host: 'localhost',
   port: process.env.PEP_PROXY_PORT || config.port,
   timeout: 2000,
   method: 'GET',
-  path: public_paths[0] || '/',
+  path: public_paths[0] || '/'
 };
 
-const request = http.request(options, result => {
+const request = http.request(options, (result) => {
   // eslint-disable-next-line no-console
   console.info(`Performed health check, result ${result.statusCode}`);
   if (result.statusCode === http_code) {
@@ -30,11 +28,9 @@ const request = http.request(options, result => {
   }
 });
 
-request.on('error', err => {
+request.on('error', (err) => {
   // eslint-disable-next-line no-console
-  console.error(
-    `An error occurred while performing health check, error: ${err}`
-  );
+  console.error(`An error occurred while performing health check, error: ${err}`);
   process.exit(1);
 });
 

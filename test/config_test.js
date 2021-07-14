@@ -16,24 +16,24 @@ config.https = {
   enabled: toBoolean(process.env.PEP_PROXY_HTTPS_ENABLED, false),
   cert_file: 'cert/cert.crt',
   key_file: 'cert/key.key',
-  port: process.env.PEP_PROXY_HTTPS_PORT || 443,
+  port: process.env.PEP_PROXY_HTTPS_PORT || 443
 };
 
 config.idm = {
   host: process.env.PEP_PROXY_IDM_HOST || 'localhost',
   port: process.env.PEP_PROXY_IDM_PORT || 4000,
-  ssl: toBoolean(process.env.PEP_PROXY_IDM_SSL_ENABLED, false),
+  ssl: toBoolean(process.env.PEP_PROXY_IDM_SSL_ENABLED, false)
 };
 
 config.app = {
   host: process.env.PEP_PROXY_APP_HOST || 'www.fiware.org',
   port: process.env.PEP_PROXY_APP_PORT || '80',
-  ssl: toBoolean(process.env.PEP_PROXY_APP_SSL_ENABLED, false), // Use true if the app server listens in https
+  ssl: toBoolean(process.env.PEP_PROXY_APP_SSL_ENABLED, false) // Use true if the app server listens in https
 };
 
 config.organizations = {
   enabled: toBoolean(process.env.PEP_PROXY_ORG_ENABLED, false),
-  header: process.env.PEP_PROXY_ORG_HEADER || 'fiware-service',
+  header: process.env.PEP_PROXY_ORG_HEADER || 'fiware-service'
 };
 
 // Credentials obtained when registering PEP Proxy in app_id in Account Portal
@@ -42,9 +42,9 @@ config.pep = {
   username: process.env.PEP_PROXY_USERNAME || '',
   password: process.env.PEP_PASSWORD || '',
   token: {
-    secret: process.env.PEP_TOKEN_SECRET || '', // Secret must be configured in order validate a jwt
+    secret: process.env.PEP_TOKEN_SECRET || '' // Secret must be configured in order validate a jwt
   },
-  trusted_apps: [],
+  trusted_apps: []
 };
 
 // in seconds
@@ -65,8 +65,8 @@ config.authorization = {
     protocol: process.env.PEP_PROXY_AZF_PROTOCOL || 'http',
     host: process.env.PEP_PROXY_AZF_HOST || 'localhost',
     port: process.env.PEP_PROXY_AZF_PORT || 8080,
-    custom_policy: process.env.PEP_PROXY_AZF_CUSTOM_POLICY || undefined, // use undefined to default policy checks (HTTP verb + path).
-  },
+    custom_policy: process.env.PEP_PROXY_AZF_CUSTOM_POLICY || undefined // use undefined to default policy checks (HTTP verb + path).
+  }
 };
 
 // list of paths that will not check authentication/authorization
