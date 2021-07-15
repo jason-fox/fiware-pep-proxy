@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const config_service = require('../lib/config_service.js');
 config_service.set_config(require('../config.js'), true);
 const config = config_service.get_config();
@@ -7,6 +8,7 @@ const fs = require('fs');
 const https = require('https');
 const Root = require('../controllers/root').Root;
 const IDM = require('../lib/idm.js').IDM;
+const Payload = require('../lib/payload.js');
 const errorhandler = require('errorhandler');
 
 config.azf = config.azf || {};
@@ -27,9 +29,6 @@ const app = express();
 if (config.debug) {
   app.use(logger('dev'));
 }
-
-//app.use(express.bodyParser());
-
 app.use(function(req, res, next) {
   const bodyChunks = [];
   req.on('data', function(chunk) {
@@ -43,6 +42,10 @@ app.use(function(req, res, next) {
     next();
   });
 });
+
+if (config.app.readPayload){
+  app.use(Payload.bodyAnalyse);
+}
 
 app.disable('x-powered-by');
 app.use(errorhandler({ log: debug}));
@@ -59,7 +62,16 @@ for (const p in config.public_paths) {
   app.all(config.public_paths[p], Root.public);
 }
 
-app.all('/*', Root.pep);
+
+
+if (config.app.readPayload){
+  app.all('/*/entities/:id', Payload.paramsAnalyse , Payload.queryAnalyse , Root.pep);
+  app.all('/*/entities/:id/attrs', Payload.paramsAnalyse , Payload.queryAnalyse , Root.pep);
+  app.all('/*/entities/:id/attrs/:attr',  Payload.paramsAnalyse, Payload.queryAnalyse , Root.pep);
+  app.all('/*', Payload.queryAnalyse , Root.pep);
+} else {
+  app.all('/*', Root.pep);
+}
 
 
 function connectIDM(callback) {

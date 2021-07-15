@@ -12,6 +12,8 @@ const Root = (function () {
   const tokensCache = {};
 
   const pep = function (req, res) {
+    debug(JSON.stringify(req.locals));
+
     const tokenHeader = req.headers.authorization;
     let authToken = tokenHeader ? tokenHeader.split('Bearer ')[1] : req.headers['x-auth-token'];
 
@@ -117,7 +119,8 @@ const Root = (function () {
           res.status(503).send('Error in IDM communication');
         }
       },
-      tokensCache
+      tokensCache,
+      req
     );
   };
 
