@@ -38,5 +38,5 @@ jobs:
               uses: actions/upload-artifact@v2
               if: always()
               with:
-                  name: node-slim-report
+                  name: ubi-report
                   path: ${{ steps.scan-ubi.outputs.sarif }}
